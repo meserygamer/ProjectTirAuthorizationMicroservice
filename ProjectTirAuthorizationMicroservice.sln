@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTirAuthorizationMicroservice.API", "ProjectTirAuthorizationMicroservice\ProjectTirAuthorizationMicroservice.API.csproj", "{7148042D-0DE2-4FC0-84A1-999FE2738530}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTirAuthorizationMicroservice.API", "ProjectTirAuthorizationMicroservice.API\ProjectTirAuthorizationMicroservice.API.csproj", "{7148042D-0DE2-4FC0-84A1-999FE2738530}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTirAuthorizationMicroservice.Application", "ProjectTirAuthorizationMicroservice.Application\ProjectTirAuthorizationMicroservice.Application.csproj", "{7D0F0F48-DE70-4714-B448-6A177F736C05}"
 EndProject
