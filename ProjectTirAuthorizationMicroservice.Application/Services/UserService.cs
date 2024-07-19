@@ -10,7 +10,7 @@ namespace ProjectTirAuthorizationMicroservice.Application.Services
         }
 
 
-        private IPasswordHasher _passwordHasher;
+        private readonly IPasswordHasher _passwordHasher;
 
 
         public async Task RegisterUser(string userName, string password)

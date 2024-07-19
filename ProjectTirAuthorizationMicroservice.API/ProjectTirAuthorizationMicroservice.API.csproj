@@ -16,7 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ProjectTirAuthorizationMicroservice.Application\ProjectTirAuthorizationMicroservice.Application.csproj" />
     <ProjectReference Include="..\ProjectTirAuthorizationMicroservice.Database\ProjectTirAuthorizationMicroservice.Database.csproj" />
+    <ProjectReference Include="..\ProjectTirAuthorizationMicroservice.Infrastructure\ProjectTirAuthorizationMicroservice.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
