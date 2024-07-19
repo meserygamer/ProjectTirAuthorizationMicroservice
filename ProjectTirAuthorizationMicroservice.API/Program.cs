@@ -1,4 +1,6 @@
 
+using ProjectTirAuthorizationMicroservice.Database;
+
 namespace ProjectTirAuthorizationMicroservice
 {
     public class Program
@@ -11,6 +13,8 @@ namespace ProjectTirAuthorizationMicroservice
 
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddDbContext<ProjectTirAuthorizationMicroserviceDbContext>(options => { });
 
             var app = builder.Build();
 
