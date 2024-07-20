@@ -15,8 +15,8 @@ namespace ProjectTirAuthorizationMicroservice.Database.Configurations
             builder.Property(x => x.Id)
                 .UseIdentityColumn();
 
-            builder.Property(u => u.Login)
-                .IsRequired();
+            builder.HasIndex(u => u.Login)
+                .IsUnique();
 
             builder.Property(u => u.PasswordHash)
                 .IsRequired();

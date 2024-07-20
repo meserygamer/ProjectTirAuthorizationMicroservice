@@ -1,7 +1,6 @@
 
 using ProjectTirAuthorizationMicroservice.Application.Interfaces;
 using ProjectTirAuthorizationMicroservice.Database;
-using ProjectTirAuthorizationMicroservice.Infrastructure.RedisCache;
 
 namespace ProjectTirAuthorizationMicroservice
 {
@@ -16,7 +15,6 @@ namespace ProjectTirAuthorizationMicroservice
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddSingleton<IDataCacheService, RedisCacheService>();
             builder.Services.AddDbContext<ProjectTirAuthorizationMicroserviceDbContext>(options => { });
 
             var app = builder.Build();

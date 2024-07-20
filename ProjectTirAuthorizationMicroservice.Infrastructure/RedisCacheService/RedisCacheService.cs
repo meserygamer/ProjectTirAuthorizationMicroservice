@@ -8,13 +8,15 @@ namespace ProjectTirAuthorizationMicroservice.Infrastructure.RedisCacheService
 {
     public class RedisCacheService : IDataCacheService
     {
-        public RedisCacheService(IConfiguration configuration) 
+        public RedisCacheService(IConfiguration configuration, TimeSpan? expireUpdateTime) 
         {
             _redisConnection = ConnectionMultiplexer.Connect(configuration.GetConnectionString("Redis")!);
+            _expireUpdateTime = expireUpdateTime;
         }
 
 
         private readonly ConnectionMultiplexer _redisConnection;
+        private readonly TimeSpan? _expireUpdateTime;
 
 
         public async Task<bool> CacheStringAsync(string key, string value, TimeSpan expireTime)
@@ -26,22 +28,25 @@ namespace ProjectTirAuthorizationMicroservice.Infrastructure.RedisCacheService
         public async Task<string?> GetCachedStringAsync(string key)
         {
             IDatabase db = _redisConnection.GetDatabase();
-            return await db.StringGetAsync(key);
+            RedisValue redisValue = await db.StringGetAsync(key);
+            if(_expireUpdateTime is not null)
+                await db.KeyExpireAsync(key, _expireUpdateTime);
+            return redisValue;
         }
 
-        public async Task<DataConversionResult<T>> GetCachedData<T>(string key)
+        public async Task<DataConversionDTO<T>> GetCachedDataAsync<T>(string key)
         {
             string? cachedString = await GetCachedStringAsync(key);
             if (cachedString is null)
-                return new DataConversionResult<T>(false, default);
+                return new DataConversionDTO<T>(false, default);
             try
             {
                 using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(cachedString)))
-                    return new DataConversionResult<T>(true, await JsonSerializer.DeserializeAsync<T>(ms));
+                    return new DataConversionDTO<T>(true, await JsonSerializer.DeserializeAsync<T>(ms));
             }   
             catch
             {
-                return new DataConversionResult<T>(false, default);
+                return new DataConversionDTO<T>(false, default);
             }
         }
     }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using ProjectTirAuthorizationMicroservice.Database;
@@ -11,9 +12,11 @@ using ProjectTirAuthorizationMicroservice.Database;
 namespace ProjectTirAuthorizationMicroservice.Database.Migrations
 {
     [DbContext(typeof(ProjectTirAuthorizationMicroserviceDbContext))]
-    partial class ProjectTirAuthorizationMicroserviceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240720100255_unique_login")]
+    partial class unique_login
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

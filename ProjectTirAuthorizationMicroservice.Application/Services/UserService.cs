@@ -1,6 +1,8 @@
 ﻿using ProjectTirAuthorizationMicroservice.Application.Interfaces;
+using ProjectTirAuthorizationMicroservice.Core.DomainEntities;
 using ProjectTirAuthorizationMicroservice.Core.RepositoryInterfaces;
 using ProjectTirAuthorizationMicroservice.Infrastructure.HashService;
+using ProjectTirAuthorizationMicroservice.Infrastructure.RedisCacheService;
 
 namespace ProjectTirAuthorizationMicroservice.Application.Services
 {
@@ -30,7 +32,13 @@ namespace ProjectTirAuthorizationMicroservice.Application.Services
         {
             string hashedPassword = _passwordHasher.HashPassword(password);
 
-            string cachedUser = 
+            DataConversionDTO<User> cachedUser = await _dataCacheService.GetCachedDataAsync<User>("users_login:" + login);
+            if(!cachedUser.IsSuccessConversion)
+            {
+
+                return;
+            }
+            return;
         }
     }
 }
