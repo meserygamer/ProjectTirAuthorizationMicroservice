@@ -1,25 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ProjectTirAuthorizationMicroservice.Application.Interfaces;
+using ProjectTirAuthorizationMicroservice.API.Contracts.Authentication;
+using ProjectTirAuthorizationMicroservice.Application.Services;
 
 namespace ProjectTirAuthorizationMicroservice.Controllers
 {
     [Route("[Controller]")]
     public class AuthenticationController : Controller
     {
-        public AuthenticationController(IDataCache dataCache)
+        public AuthenticationController(UserService userService)
         {
-            _dataCache = dataCache;
+            _userService = userService;
         }
 
 
-        private readonly IDataCache _dataCache;
+        public UserService _userService;
 
 
         [HttpPost]
         [Route("[Action]")]
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login([FromBody] LoginUserRequest request)
         {
-            await _dataCache.CacheStringAsync("User", "Was confirmed", new TimeSpan(0, 0, 15));
+            await _userService.Login(request.Login, request.Password);
             return Ok("Login was confirmed");
         }
 
@@ -27,8 +28,7 @@ namespace ProjectTirAuthorizationMicroservice.Controllers
         [Route("[Action]")]
         public async Task<IActionResult> Logout()
         {
-            string? user = await _dataCache.GetCachedStringAsync("User");
-            return Ok($"Logout was confirmed, Redis say - {user}");
+            return Ok($"Logout was confirmed");
         }
     }
 }

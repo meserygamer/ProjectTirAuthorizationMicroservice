@@ -1,6 +1,6 @@
 ﻿namespace ProjectTirAuthorizationMicroservice.Core.RepositoryInterfaces
 {
-    internal interface ISessionRepositoryInterface
+    internal interface ISessionRepository
     {
     }
 }

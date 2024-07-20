@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="DTO\UserService\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectTirAuthorizationMicroservice.Core\ProjectTirAuthorizationMicroservice.Core.csproj" />
+  </ItemGroup>
+
 </Project>

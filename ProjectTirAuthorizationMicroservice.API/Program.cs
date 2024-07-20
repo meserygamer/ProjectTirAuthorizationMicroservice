@@ -16,7 +16,7 @@ namespace ProjectTirAuthorizationMicroservice
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.AddSingleton<IDataCache, RedisCache>();
+            builder.Services.AddSingleton<IDataCacheService, RedisCacheService>();
             builder.Services.AddDbContext<ProjectTirAuthorizationMicroserviceDbContext>(options => { });
 
             var app = builder.Build();
