@@ -1,5 +1,3 @@
-
-using ProjectTirAuthorizationMicroservice.Application.Interfaces;
 using ProjectTirAuthorizationMicroservice.Database;
 
 namespace ProjectTirAuthorizationMicroservice

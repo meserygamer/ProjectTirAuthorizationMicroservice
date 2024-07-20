@@ -4,8 +4,7 @@ namespace ProjectTirAuthorizationMicroservice.Application.Interfaces
 {
     public interface IDataCacheService
     {
-        Task<bool> CacheStringAsync(string key, string value, TimeSpan expireTime);
-        Task<string?> GetCachedStringAsync(string key);
-        Task<DataConversionDTO<T>> GetCachedDataAsync<T>(string key);
+        Task<CachedData<T>> GetCachedDataAsync<T>(string key, TimeSpan? updateExpireTime);
+        Task<bool> CacheDataAsync<T>(string key, T data, TimeSpan? expireTime);
     }
 }

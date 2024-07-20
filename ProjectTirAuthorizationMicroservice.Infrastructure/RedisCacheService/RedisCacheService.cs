@@ -8,46 +8,63 @@ namespace ProjectTirAuthorizationMicroservice.Infrastructure.RedisCacheService
 {
     public class RedisCacheService : IDataCacheService
     {
-        public RedisCacheService(IConfiguration configuration, TimeSpan? expireUpdateTime) 
+        public RedisCacheService(IConfiguration configuration) 
         {
             _redisConnection = ConnectionMultiplexer.Connect(configuration.GetConnectionString("Redis")!);
-            _expireUpdateTime = expireUpdateTime;
         }
 
 
         private readonly ConnectionMultiplexer _redisConnection;
-        private readonly TimeSpan? _expireUpdateTime;
 
 
-        public async Task<bool> CacheStringAsync(string key, string value, TimeSpan expireTime)
+        public async Task<CachedData<T>> GetCachedDataAsync<T>(string key, TimeSpan? updateExpireTime)
+        {
+            string? cachedString = await GetCachedStringAsync(key, updateExpireTime);
+            if (cachedString is null)
+                return new CachedData<T>(false, default);
+            try
+            {
+                using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(cachedString)))
+                    return new CachedData<T>(true, await JsonSerializer.DeserializeAsync<T>(ms));
+            }   
+            catch
+            {
+                return new CachedData<T>(false, default);
+            }
+        }
+
+        public async Task<bool> CacheDataAsync<T>(string key, T data, TimeSpan? expireTime = null)
+        {
+            string? dataInJsonForm;
+            try
+            {
+                using (MemoryStream ms = new())
+                {
+                    await JsonSerializer.SerializeAsync(ms, data, typeof(T));
+                    dataInJsonForm = Encoding.UTF8.GetString(ms.ToArray());
+                }
+            }
+            catch
+            {
+                return false;
+            }
+            await CacheStringAsync(key, dataInJsonForm, expireTime);
+            return true;
+        }
+
+        private async Task<bool> CacheStringAsync(string key, string value, TimeSpan? expireTime = null)
         {
             IDatabase db = _redisConnection.GetDatabase();
             return await db.StringSetAsync(key, value, expireTime);
         }
 
-        public async Task<string?> GetCachedStringAsync(string key)
+        private async Task<string?> GetCachedStringAsync(string key, TimeSpan? updateExpireTime)
         {
             IDatabase db = _redisConnection.GetDatabase();
             RedisValue redisValue = await db.StringGetAsync(key);
-            if(_expireUpdateTime is not null)
-                await db.KeyExpireAsync(key, _expireUpdateTime);
+            if (updateExpireTime is not null)
+                await db.KeyExpireAsync(key, updateExpireTime);
             return redisValue;
-        }
-
-        public async Task<DataConversionDTO<T>> GetCachedDataAsync<T>(string key)
-        {
-            string? cachedString = await GetCachedStringAsync(key);
-            if (cachedString is null)
-                return new DataConversionDTO<T>(false, default);
-            try
-            {
-                using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(cachedString)))
-                    return new DataConversionDTO<T>(true, await JsonSerializer.DeserializeAsync<T>(ms));
-            }   
-            catch
-            {
-                return new DataConversionDTO<T>(false, default);
-            }
         }
     }
 }
