@@ -1,4 +1,4 @@
 ﻿namespace ProjectTirAuthorizationMicroservice.Infrastructure.RedisCacheService
 {
-    public record CachedData<T>(bool IsSuccessConversion, T? Value);
+    public record CachedData<T>(bool IsSuccessfulReceipt, T? Value);
 }

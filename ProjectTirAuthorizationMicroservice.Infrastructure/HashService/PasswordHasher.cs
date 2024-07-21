@@ -16,7 +16,11 @@
         /// <param name="password">пароль, для которого осуществляется проверка</param>
         /// <param name="hashedPassword">хэш пароля, которому проверяется соответсвие</param>
         /// <returns>Соответствие пароля хэшу</returns>
-        public bool VerifyPassword(string password, string hashedPassword)
-            => BCrypt.Net.BCrypt.EnhancedVerify(password, hashedPassword);
+        public bool VerifyPassword(string? password, string? hashedPassword)
+        {
+            if(password is null || hashedPassword is null)
+                return false;
+            return BCrypt.Net.BCrypt.EnhancedVerify(password, hashedPassword);
+        }
     }
 }

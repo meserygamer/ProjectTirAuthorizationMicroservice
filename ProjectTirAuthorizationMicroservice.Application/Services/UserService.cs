@@ -25,39 +25,50 @@ namespace ProjectTirAuthorizationMicroservice.Application.Services
         private readonly IUserRepository _userRepository;
 
 
-        public async Task RegisterUser(RegisterUserDTO request)
+        public async Task<bool> RegisterUser(RegisterUserDTO request)
         {
             string hashedPassword = _passwordHasher.HashPassword(request.Password);
+
+            if(await _userRepository.GetUserByLoginAsync(request.Login) is null) //Проверяем есть ли пользователь с таким логином
+                return false;
+
+
         }
 
         public async Task<User?> Login(string login, string password)
         {
-            string cacheKey = new StringBuilder("users_login:")
-                .Append(login)
-                .ToString();
+            string cacheKey = GetCacheKeyForUserByLogin(login);
 
-            CachedData<User> cachedUser = await _dataCacheService.GetCachedDataAsync<User>(cacheKey, new TimeSpan(0, 5, 0));
-            if(cachedUser.IsSuccessConversion)
-            {
-                if(cachedUser.Value is null)
-                    return null;
+            return await GetUserFromCacheByLoginPasswordPairAsync(login, password) ??       //Ищем данные в кэше, если их нет, идём в БД
+                await GetUserFromDbByLoginPasswordPairWithCachingAsync(login, password);
+        }
 
-                if(!_passwordHasher.VerifyPassword(password, cachedUser.Value.PasswordHash))
-                    return null;
+        private static string GetCacheKeyForUserByLogin(string login)
+            => new StringBuilder("users_login:")
+               .Append(login)
+               .ToString();
 
-                return cachedUser.Value;
-            }
+        private async Task<User?> GetUserFromCacheByLoginPasswordPairAsync(string login, string password)
+        {
+            string cacheKey = GetCacheKeyForUserByLogin(login);
+
+            CachedData<User> cachedUser = await _dataCacheService.GetCachedDataAsync<User>(cacheKey, new TimeSpan(0, 1, 0));
+
+            if(!cachedUser.IsSuccessfulReceipt)
+                return null;
+
+            return (_passwordHasher.VerifyPassword(password, cachedUser.Value?.PasswordHash))? cachedUser.Value : null;
+        }
+
+        private async Task<User?> GetUserFromDbByLoginPasswordPairWithCachingAsync(string login, string password)
+        {
+            string cacheKey = GetCacheKeyForUserByLogin(login);
 
             User? userWithLogin = await _userRepository.GetUserByLoginAsync(login);
-            if (userWithLogin is null)
-                return null;
+            if (userWithLogin is not null)
+                await _dataCacheService.CacheDataAsync(cacheKey, (User)userWithLogin, new TimeSpan(0, 2, 0));
 
-            await _dataCacheService.CacheDataAsync(cacheKey, (User)userWithLogin, new TimeSpan(0, 10, 0));
-
-            if (!_passwordHasher.VerifyPassword(password, userWithLogin.PasswordHash))
-                return null;
-
-            return userWithLogin;
+            return (_passwordHasher.VerifyPassword(password, userWithLogin?.PasswordHash))? userWithLogin : null;
         }
     }
 }
