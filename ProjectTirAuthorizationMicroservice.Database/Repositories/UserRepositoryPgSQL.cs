@@ -28,5 +28,22 @@ namespace ProjectTirAuthorizationMicroservice.Database.Repositories
                 return null;
             return new UserMapper().ToDomain(userEntity);
         }
+
+        public async Task<bool> AddUserAsync(User user)
+        {
+            if(user is null)
+                return false;
+
+            try
+            {
+                await _dbContext.Users.AddAsync(new UserMapper().ToExternal(user));
+                await _dbContext.SaveChangesAsync();
+            }
+            catch
+            { 
+                return false;
+            }
+            return true;
+        }
     }
 }

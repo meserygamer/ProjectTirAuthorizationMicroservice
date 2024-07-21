@@ -22,7 +22,7 @@ namespace ProjectTirAuthorizationMicroservice.Database.Mappers
             return domainUser;
         }
 
-        public UserEntity ToExternal(UserEntity domainEntity)
+        public UserEntity ToExternal(User domainEntity)
         {
             var externalUser = new UserEntity
             {

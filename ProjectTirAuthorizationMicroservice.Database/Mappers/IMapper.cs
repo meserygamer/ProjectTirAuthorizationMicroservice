@@ -4,6 +4,6 @@
     {
         D ToDomain(E externalEntity);
 
-        E ToExternal(E domainEntity);
+        E ToExternal(D domainEntity);
     }
 }

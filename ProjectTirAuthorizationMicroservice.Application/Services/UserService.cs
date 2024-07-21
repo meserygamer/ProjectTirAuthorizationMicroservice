@@ -32,7 +32,21 @@ namespace ProjectTirAuthorizationMicroservice.Application.Services
             if(await _userRepository.GetUserByLoginAsync(request.Login) is null) //Проверяем есть ли пользователь с таким логином
                 return false;
 
-
+            bool isUserRegistered = await _userRepository.AddUserAsync(new User
+            {
+                Login = request.Login,
+                PasswordHash = hashedPassword,
+                UserName = request.UserName,
+                UserSurname = request.UserSurname,
+                UserPatronymic = request.UserPatronymic,
+                UserEmail = request.UserEmail,
+                UserPhone = request.UserPhone,
+                UserBirtdayDate = request.UserBirtdayDate
+            });
+            User? registeredUser = await _userRepository.GetUserByLoginAsync(request.Login);
+            if(registeredUser is not null)
+                await _dataCacheService.CacheDataAsync(GetCacheKeyForUserByLogin(request.Login), registeredUser, TimeSpan.FromMinutes(2));
+            return isUserRegistered;
         }
 
         public async Task<User?> Login(string login, string password)
