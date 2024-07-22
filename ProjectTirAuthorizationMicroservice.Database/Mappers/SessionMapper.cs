@@ -16,7 +16,7 @@ namespace ProjectTirAuthorizationMicroservice.Database.Mappers
             return domainSession;
         }
 
-        public SessionEntity ToExternal(SessionEntity domainEntity)
+        public SessionEntity ToExternal(Session domainEntity)
         {
             var externalSession = new SessionEntity
             {

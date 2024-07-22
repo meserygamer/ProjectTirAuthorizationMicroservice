@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ProjectTirAuthorizationMicroservice.API</name>
+    </assembly>
+    <members>
+        <member name="T:ProjectTirAuthorizationMicroservice.API.Controllers.RegistrationController">
+            <summary>
+            Контроллер механизма регистрации
+            </summary>
+        </member>
+        <member name="M:ProjectTirAuthorizationMicroservice.API.Controllers.RegistrationController.RegisterUser(ProjectTirAuthorizationMicroservice.API.Contracts.Registration.RegisterUserRequest)">
+            <summary>
+            Зарегистрировать пользователя
+            </summary>
+            <param name="request">Данные пользователя</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

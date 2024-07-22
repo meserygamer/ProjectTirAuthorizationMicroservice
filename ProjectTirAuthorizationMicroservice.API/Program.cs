@@ -1,3 +1,7 @@
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
+using ProjectTirAuthorizationMicroservice.API.Contracts.Registration;
+using ProjectTirAuthorizationMicroservice.API.SwaggerSchemas;
 using ProjectTirAuthorizationMicroservice.Database;
 
 namespace ProjectTirAuthorizationMicroservice
@@ -11,7 +15,15 @@ namespace ProjectTirAuthorizationMicroservice
             builder.Services.AddControllers();
 
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                var basePath = AppContext.BaseDirectory;
+
+                var xmlPath = Path.Combine(basePath, "APIDoc.xml");
+                options.IncludeXmlComments(xmlPath);
+
+                options.MapType<RegisterUserRequest>(new RegisterRequestSchemaFactory().CreateSchema);
+            });
 
             builder.Services.AddDbContext<ProjectTirAuthorizationMicroserviceDbContext>(options => { });
 
