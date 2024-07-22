@@ -32,7 +32,7 @@ namespace ProjectTirAuthorizationMicroservice.Database.Repositories
         public async Task<bool> AddUserAsync(User user)
         {
             if(user is null)
-                return false;
+                throw new ArgumentNullException(nameof(user));
 
             try
             {

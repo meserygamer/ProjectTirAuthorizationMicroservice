@@ -1,6 +1,9 @@
-﻿namespace ProjectTirAuthorizationMicroservice.Core.RepositoryInterfaces
+﻿using ProjectTirAuthorizationMicroservice.Core.DomainEntities;
+
+namespace ProjectTirAuthorizationMicroservice.Core.RepositoryInterfaces
 {
-    internal interface ISessionRepository
+    public interface ISessionRepository
     {
+        Task<bool> AddSessionAsync(Session session);
     }
 }
