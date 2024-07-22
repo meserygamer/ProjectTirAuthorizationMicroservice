@@ -8,17 +8,17 @@
 
         public string PasswordHash { get; set; } = null!;
 
-        public string UserName { get; set; } = null!;
+        public string Name { get; set; } = null!;
 
-        public string UserSurname { get; set; } = null!;
+        public string Surname { get; set; } = null!;
 
-        public string UserPatronymic { get; set; } = null!;
+        public string Patronymic { get; set; } = null!;
 
-        public string UserEmail { get; set; } = null!;
+        public string Email { get; set; } = null!;
 
-        public string UserPhone { get; set; } = null!;
+        public string Phone { get; set; } = null!;
 
-        public DateOnly UserBirtdayDate { get; set; }
+        public DateOnly BirthdayDate { get; set; }
 
         public List<SessionEntity> OpenSessions { get; set; } = null!;
     }

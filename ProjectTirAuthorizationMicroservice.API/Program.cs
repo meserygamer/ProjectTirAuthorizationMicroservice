@@ -1,7 +1,6 @@
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using ProjectTirAuthorizationMicroservice.API.Contracts.Registration;
-using ProjectTirAuthorizationMicroservice.API.SwaggerSchemas;
 using ProjectTirAuthorizationMicroservice.Application.Interfaces;
 using ProjectTirAuthorizationMicroservice.Application.Services;
 using ProjectTirAuthorizationMicroservice.Core.RepositoryInterfaces;
@@ -33,7 +32,11 @@ namespace ProjectTirAuthorizationMicroservice
                 var xmlPath = Path.Combine(basePath, "APIDoc.xml");
                 options.IncludeXmlComments(xmlPath);
 
-                options.MapType<RegisterUserRequest>(new RegisterRequestSchemaFactory().CreateSchema);
+                options.MapType<DateOnly>(() => new OpenApiSchema
+                {
+                    Type = "string",
+                    Format = "date"
+                });
             });
 
             builder.Services.AddDbContext<ProjectTirAuthorizationMicroserviceDbContext>(options => { });

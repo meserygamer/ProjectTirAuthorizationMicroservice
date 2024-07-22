@@ -47,12 +47,12 @@ namespace ProjectTirAuthorizationMicroservice.API.Controllers
                 {
                     Login = request.Login,
                     Password = request.Password,
-                    UserName = request.UserName,
-                    UserSurname = request.UserSurname,
-                    UserPatronymic = request.UserPatronymic,
-                    UserEmail = request.UserEmail,
-                    UserPhone = request.UserPhone,
-                    UserBirtdayDate = request.UserBirtdayDate
+                    Name = request.Name,
+                    Surname = request.Surname,
+                    Patronymic = request.Patronymic,
+                    Email = request.Email,
+                    Phone = request.Phone,
+                    BirthdayDate = request.BirthdayDate
                 });
             }
             catch (Exception ex) 

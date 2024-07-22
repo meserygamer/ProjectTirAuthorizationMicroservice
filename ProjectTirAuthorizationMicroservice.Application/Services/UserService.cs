@@ -29,19 +29,19 @@ namespace ProjectTirAuthorizationMicroservice.Application.Services
         {
             string hashedPassword = _passwordHasher.HashPassword(request.Password);
 
-            if(await _userRepository.GetUserByLoginAsync(request.Login) is null) //Проверяем есть ли пользователь с таким логином
+            if(await _userRepository.GetUserByLoginAsync(request.Login) is not null) //Проверяем есть ли пользователь с таким логином
                 throw new ArgumentException("Login is busy");
 
             bool isUserRegistered = await _userRepository.AddUserAsync(new User
             {
                 Login = request.Login,
                 PasswordHash = hashedPassword,
-                UserName = request.UserName,
-                UserSurname = request.UserSurname,
-                UserPatronymic = request.UserPatronymic,
-                UserEmail = request.UserEmail,
-                UserPhone = request.UserPhone,
-                UserBirtdayDate = request.UserBirtdayDate
+                Name = request.Name,
+                Surname = request.Surname,
+                Patronymic = request.Patronymic,
+                Email = request.Email,
+                Phone = request.Phone,
+                BirthdayDate = request.BirthdayDate
             });
             User? registeredUser = await _userRepository.GetUserByLoginAsync(request.Login);
             if(registeredUser is not null)

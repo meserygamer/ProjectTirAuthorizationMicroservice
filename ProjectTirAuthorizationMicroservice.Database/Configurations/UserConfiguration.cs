@@ -21,10 +21,10 @@ namespace ProjectTirAuthorizationMicroservice.Database.Configurations
             builder.Property(u => u.PasswordHash)
                 .IsRequired();
 
-            builder.Property(u => u.UserName)
+            builder.Property(u => u.Name)
                 .IsRequired();
 
-            builder.Property(u => u.UserSurname)
+            builder.Property(u => u.Surname)
                 .IsRequired();
 
             builder.HasMany(u => u.OpenSessions)

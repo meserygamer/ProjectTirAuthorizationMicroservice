@@ -12,12 +12,12 @@ namespace ProjectTirAuthorizationMicroservice.Database.Mappers
                 Id = externalEntity.Id,
                 Login = externalEntity.Login,
                 PasswordHash = externalEntity.PasswordHash,
-                UserName = externalEntity.UserName,
-                UserSurname = externalEntity.UserSurname,
-                UserPatronymic = externalEntity.UserPatronymic,
-                UserEmail = externalEntity.UserEmail,
-                UserPhone = externalEntity.UserPhone,
-                UserBirtdayDate = externalEntity.UserBirtdayDate,
+                Name = externalEntity.Name,
+                Surname = externalEntity.Surname,
+                Patronymic = externalEntity.Patronymic,
+                Email = externalEntity.Email,
+                Phone = externalEntity.Phone,
+                BirthdayDate = externalEntity.BirthdayDate,
             };
             return domainUser;
         }
@@ -29,12 +29,12 @@ namespace ProjectTirAuthorizationMicroservice.Database.Mappers
                 Id = domainEntity.Id,
                 Login = domainEntity.Login,
                 PasswordHash = domainEntity.PasswordHash,
-                UserName = domainEntity.UserName,
-                UserSurname = domainEntity.UserSurname,
-                UserPatronymic = domainEntity.UserPatronymic,
-                UserEmail = domainEntity.UserEmail,
-                UserPhone = domainEntity.UserPhone,
-                UserBirtdayDate = domainEntity.UserBirtdayDate,
+                Name = domainEntity.Name,
+                Surname = domainEntity.Surname,
+                Patronymic = domainEntity.Patronymic,
+                Email = domainEntity.Email,
+                Phone = domainEntity.Phone,
+                BirthdayDate = domainEntity.BirthdayDate,
             };
             return externalUser;
         }

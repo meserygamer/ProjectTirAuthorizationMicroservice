@@ -4,7 +4,6 @@ using System.Text.Json.Serialization;
 
 namespace ProjectTirAuthorizationMicroservice.API.Contracts.Registration
 {
-    [Serializable]
     public class RegisterUserRequest
     {
         [Required(AllowEmptyStrings = false)]
@@ -20,22 +19,22 @@ namespace ProjectTirAuthorizationMicroservice.API.Contracts.Registration
         public string Password { get; set; } = null!;
 
         [Required]
-        public string UserName { get; set; } = null!;
+        public string Name { get; set; } = null!;
 
         [Required]
-        public string UserSurname { get; set; } = null!;
+        public string Surname { get; set; } = null!;
 
-        public string UserPatronymic { get; set; } = null!;
+        public string Patronymic { get; set; } = null!;
 
         [EmailAddress(ErrorMessage = "Некорректный Email")]
-        public string UserEmail { get; set; } = null!;
+        public string Email { get; set; } = null!;
 
         [Required]
         [Phone]
-        public string UserPhone { get; set; } = null!;
+        public string Phone { get; set; } = null!;
 
         [Required]
         [JsonConverter(typeof(DateOnlyJsonConverter))]
-        public DateOnly UserBirtdayDate { get; set; }
+        public DateOnly BirthdayDate { get; set; }
     }
 }
