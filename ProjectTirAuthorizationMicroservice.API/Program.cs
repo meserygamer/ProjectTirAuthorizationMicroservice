@@ -2,7 +2,13 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using ProjectTirAuthorizationMicroservice.API.Contracts.Registration;
 using ProjectTirAuthorizationMicroservice.API.SwaggerSchemas;
+using ProjectTirAuthorizationMicroservice.Application.Interfaces;
+using ProjectTirAuthorizationMicroservice.Application.Services;
+using ProjectTirAuthorizationMicroservice.Core.RepositoryInterfaces;
 using ProjectTirAuthorizationMicroservice.Database;
+using ProjectTirAuthorizationMicroservice.Database.Repositories;
+using ProjectTirAuthorizationMicroservice.Infrastructure.HashService;
+using ProjectTirAuthorizationMicroservice.Infrastructure.RedisCacheService;
 
 namespace ProjectTirAuthorizationMicroservice
 {
@@ -11,6 +17,11 @@ namespace ProjectTirAuthorizationMicroservice
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddTransient<UserService>();
+            builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            builder.Services.AddSingleton<IDataCacheService, RedisCacheService>();
+            builder.Services.AddTransient<IUserRepository, UserRepositoryPgSQL>();
 
             builder.Services.AddControllers();
 

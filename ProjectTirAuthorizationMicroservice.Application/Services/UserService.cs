@@ -30,7 +30,7 @@ namespace ProjectTirAuthorizationMicroservice.Application.Services
             string hashedPassword = _passwordHasher.HashPassword(request.Password);
 
             if(await _userRepository.GetUserByLoginAsync(request.Login) is null) //Проверяем есть ли пользователь с таким логином
-                return false;
+                throw new ArgumentException("Login is busy");
 
             bool isUserRegistered = await _userRepository.AddUserAsync(new User
             {
